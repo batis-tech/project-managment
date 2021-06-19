@@ -1,19 +1,51 @@
-<p id="notice"><%= notice %></p>
+<%= link_to 'Back', project_path,class:"btn btn-light mb-3" %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
+<div class="card">
+  <h2 class="card-header d-flex justify-content-between">
+    <span>
+      <%= @project.name %></span>
+    <div class="">
+      <%= link_to 'Edit', edit_project_path(@project),class:"btn btn-warning" %>
+      |
+      <%= link_to 'Delete', @project, method: :delete, class:"btn btn-danger", data: { confirm: 'Are you sure?' } %>
+    </div>
+  </h2>
+  <div class="card-body">
+    <h5>Add a task</h5>
+    <%= form_with(model: [@task.project, @task],) do |f| %>
+    <% if @task.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@task.errors.count, "error") %>
+          prohibited this task from being saved:</h2>
+        <ul>
+          <% @task.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="input-group mb-4">
+      <%= f.hidden_field :status , value: "not-started" %>
+      <%= f.text_field :name ,class: "form-control" %>
+      <div class="input-group-append">
+        <%= f.submit class:"btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+  <% @project.tasks.each do |task| %>
+    <% if task.persisted? %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <span class="badge badge-<%= task.badge_color %>"><%= task.status %></span>
+          <h5><%= task.name %></h5>
+          <h5><%= task.description %></h5>
+          <%= link_to 'Edit', edit_project_task_path(task.project, task), class:"btn btn-warning btn-sm" %>
+          <%= link_to 'Destroy', [task.project, task], method: :delete, class:"btn btn-danger btn-sm", data: { confirm: 'Are you sure?' } %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @project.description %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @project.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+</div>
+</div>
+<br/>

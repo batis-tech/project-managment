@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -21,11 +20,7 @@
   </div>
   <div class="field">
     <%= f.label :status %><br />
-    <%= f.text_field :status %>
-  </div>
-  <div class="field">
-    <%= f.label :project %><br />
-    <%= f.text_field :project %>
+    <%= f.select :status, Task::STATUS_OPTIONS %>
   </div>
   <div class="actions">
     <%= f.submit %>
