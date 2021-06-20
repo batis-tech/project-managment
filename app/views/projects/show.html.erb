@@ -36,7 +36,9 @@
     <% if task.persisted? %>
       <div class="card mb-3">
         <div class="card-body">
-          <span class="badge badge-<%= task.badge_color %>"><%= task.status %></span>
+          <%= render(ProgressBadgeComponent.new(status: task.status)) do %>
+            <%= task.status %>
+            <% end %>
           <h5><%= task.name %></h5>
           <h5><%= task.description %></h5>
           <%= link_to 'Edit', edit_project_task_path(task.project, task), class:"btn btn-warning btn-sm" %>
